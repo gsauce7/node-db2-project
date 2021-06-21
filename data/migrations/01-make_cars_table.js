@@ -3,10 +3,10 @@
 exports.up = function (knex) {
     return knex.schema.createTable("cars", table => {
         table.increments()
-        table.text("vin", 17).required().unique().notNullable()
-        table.text("make").required().notNullable()
-        table.text("model").required().notNullable()
-        table.decimal("mileage").required().notNullable()
+        table.text("vin", 17)
+        table.text("make")
+        table.text("model")
+        table.decimal("mileage")
         table.text("title")
         table.text("transmission")
     })
