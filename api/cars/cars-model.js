@@ -5,8 +5,9 @@ const getAll = () => {
   return db("cars"); // select * from cars and return
 };
 
-const getById = () => {
+const getById = (id) => {
   // DO YOUR MAGIC
+
   return db("cars").where("id", id).first()
 };
 
@@ -42,10 +43,10 @@ const create = async (car) => {
 // };
 
 
-// module.exports = {
-//   getAll,
-//   getById,
-//   create,
-//   updateById,
-//   deleteById
-// };
+module.exports = {
+  getAll,
+  getById,
+  create
+  // updateById,
+  // deleteById
+};

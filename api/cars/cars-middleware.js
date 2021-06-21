@@ -39,7 +39,7 @@ const checkVinNumberValid = (req, res, next) => {
   // DO YOUR MAGIC
   const { vin } = req.body;
   if (vin.trim().length !== 17) {
-    res.status(400).json({ message: `vin ${vin} is invalid. It must be exactly 17 characters in length` });
+    res.status(400).json({ message: `vin ${vin} is invalid` });
 
   }
 };
