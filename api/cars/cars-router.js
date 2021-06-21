@@ -11,13 +11,7 @@ router.get('/', async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-    // db('cars')
-    //     .then(cars => {
-    //         res.json(cars);
-    //     })
-    //     .catch(err => {
-    //         res.status(500).json({ message: err.message });
-    //     });
+
 });
 
 router.get('/:id', checkCarId, async (req, res) => {
@@ -32,26 +26,23 @@ router.get('/:id', checkCarId, async (req, res) => {
         });
 });
 
-router.post('/', checkCarPayload, checkVinNumberValid, checkVinNumberUnique, async (req, res, next) => {
+
+
+router.post("/", checkCarPayload, checkVinNumberValid, /*checkVinNumberUnique,*/ async (req, res, next) => {
+    // DO YOUR MAGIC
     try {
-        const newCar = await Car.create({ vin: req.body.vin.trim(), make: req.body.make.trim(), model: req.body.model.trim(), mileage: req.body.mileage });
+        const newCar = await Car.create({
+            vin: req.body.vin,
+            make: req.body.make,
+            model: req.body.model,
+            mileage: req.body.mileage,
+            title: req.body.title,
+            transmission: req.body.transmission
+        });
         res.status(201).json(newCar);
     } catch (err) {
         next(err);
     }
-
-    // const carData = req.body;
-    // db('cars').insert(carData)
-    //     .then(ids => {
-    //         return db('cars').where({ id: ids[0] })
-    //     })
-    //     .then(newCarEntry => {
-    //         res.status(201).json(newCarEntry);
-    //     })
-    //     .catch(err => {
-    //         console.log('POST error', err);
-    //         res.status(500).json({ message: "Failed to store data" });
-    //     });
 });
 
 module.exports = router;

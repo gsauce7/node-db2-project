@@ -14,10 +14,15 @@ const getById = (id) => {
 const create = async (car) => {
   // DO YOUR MAGIC
   const [id] = await db("cars").insert(car);
-  return getById(id);
+  const savedValue = getById(id);
+  return savedValue;
 };
 
-
+const filterByVin = async (vin) => {
+  // DO YOUR MAGIC
+  const clone = await db("cars").where("vin", vin).first();
+  return clone;
+};
 
 
 
@@ -46,7 +51,8 @@ const create = async (car) => {
 module.exports = {
   getAll,
   getById,
-  create
+  create,
+  filterByVin
   // updateById,
   // deleteById
 };

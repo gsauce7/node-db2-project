@@ -19,17 +19,23 @@ const checkCarId = async (req, res, next) => {
 const checkCarPayload = (req, res, next) => {
   // DO YOUR MAGIC
   const { vin, make, model, mileage } = req.body;
-  const field_name = (vin || make || model || mileage);
-  if (field_name === undefined) {
-    res.status(400).json({ message: `${field_name} is missing` });
+  // const field_name = (vin || make || model || mileage);
+  if (vin === undefined) {
+    res.status(400).json({ message: `vin is missing` });
+  } else if (make === undefined) {
+    res.status(400).json({ message: `make is missing` });
+  } else if (model === undefined) {
+    res.status(400).json({ message: `model is missing` });
+  } else if (mileage === undefined) {
+    res.status(400).json({ message: `mileage is missing` });
   } else if (typeof vin !== "string") {
-    res.status(400).json({ message: `${vin} must be a string` });
+    res.status(400).json({ message: `vin must be a string` });
   } else if (typeof make !== "string") {
-    res.status(400).json({ message: `${make} must be a string` });
+    res.status(400).json({ message: `make must be a string` });
   } else if (typeof model !== "string") {
-    res.status(400).json({ message: `${model} must be a string` });
+    res.status(400).json({ message: `model must be a string` });
   } else if (typeof mileage !== "number") {
-    res.status(400).json({ message: `${mileage} must be a number` });
+    res.status(400).json({ message: `mileage must be a number` });
   } else {
     next();
   }
@@ -38,19 +44,25 @@ const checkCarPayload = (req, res, next) => {
 const checkVinNumberValid = (req, res, next) => {
   // DO YOUR MAGIC
   const { vin } = req.body;
-  if (vin.trim().length !== 17) {
+  if (vin.length < 17 || vin.length > 17) {
     res.status(400).json({ message: `vin ${vin} is invalid` });
 
-  }
+  } next()
 };
 
+
 const checkVinNumberUnique = async (req, res, next) => {
-  // DO YOUR MAGIC
-  const allCars = await Car.getAll()
-  if (allCars.some(car => car.vin == req.body.vin.trim() && car.id != req.params.id)) {
-    return res.status(400).json({ message: `vin ${vin} already exists` })
-  }
-  next()
+  const givenVin = req.params.vin;
+  const exists = await Car.filterByVin(givenVin);
+  console.log(`Gabriel: ${exists}`)
+
+  // if you have to deep check object 
+
+  if (exists.vin) {
+    res.status(400).json({ message: `vin ${givenVin} already exists` })
+  } next()
+
+
 }
 
 
