@@ -51,18 +51,39 @@ const checkVinNumberValid = (req, res, next) => {
 };
 
 
+// const checkVinNumberUnique = async (req, res, next) => {
+//   const givenVin = req.params.vin;
+//   const exists = await Car.filterByVin(givenVin);
+//   console.log(`Gabriel: ${exists}`)
+
+//   // if you have to deep check object 
+
+//   if (exists.vin) {
+//     res.status(400).json({ message: `vin ${givenVin} already exists` })
+//   } next()
+
+
+// }
+
 const checkVinNumberUnique = async (req, res, next) => {
-  const givenVin = req.params.vin;
-  const exists = await Car.filterByVin(givenVin);
-  console.log(`Gabriel: ${exists}`)
 
-  // if you have to deep check object 
-
-  if (exists.vin) {
-    res.status(400).json({ message: `vin ${givenVin} already exists` })
-  } next()
+  const vin = req.body.vin
+  const exists = await Car.filterByVin(vin)
 
 
+  try {
+    if (exists) {
+      res.status(400).json({ message: `vin ${vin} already exists` });
+
+    } else {
+      next()
+    }
+
+
+  }
+  catch (error) {
+    next(error)
+  }
 }
 
 

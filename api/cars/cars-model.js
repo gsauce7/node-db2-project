@@ -18,11 +18,13 @@ const create = async (car) => {
   return savedValue;
 };
 
-const filterByVin = async (vin) => {
-  // DO YOUR MAGIC
-  const clone = await db("cars").where("vin", vin).first();
-  return clone;
+const filterByVin = (vin) => {
+
+  return db("cars").where("vin", vin).first();
 };
+
+
+
 
 
 
